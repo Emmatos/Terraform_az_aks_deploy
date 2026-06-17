@@ -35,7 +35,3 @@ variable "client_secret" {}
 variable "tenant_id" {}
 variable "subscription_id" {}
 
-# terraform-azure-pipeline  is the name of the ( App Registration )
-# permission for the App Registration 
-# Owner under the subscription
-# User access 
