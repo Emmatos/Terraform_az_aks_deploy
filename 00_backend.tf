@@ -1,10 +1,10 @@
 terraform { 
   cloud { 
     
-    organization = "Jay4tech" 
+    organization = "Telco-Pharmacy" 
 
     workspaces { 
-      name = "azure-hospital-app-aks-deploy" 
+      name = "Kubernetes_Azure_deploy" 
     } 
   } 
 }
