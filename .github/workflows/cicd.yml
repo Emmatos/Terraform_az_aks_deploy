@@ -52,16 +52,16 @@ jobs:
 
 
 
-    # - name: Terraform Apply
-    #   run:  terraform apply -var "client_id=${{ secrets.AZURE_CLIENT_ID }}" -var "client_secret=${{ secrets.AZURE_CLIENT_SECRET }}" -var "tenant_id=${{ secrets.AZURE_TENANT_ID }}" -var "subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" -auto-approve -input=false
+    - name: Terraform Apply
+      run:  terraform apply -var "client_id=${{ secrets.AZURE_CLIENT_ID }}" -var "client_secret=${{ secrets.AZURE_CLIENT_SECRET }}" -var "tenant_id=${{ secrets.AZURE_TENANT_ID }}" -var "subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" -auto-approve -input=false
 
 
-    - name: Terraform Destroy
-      run:  terraform destroy -var "client_id=${{ secrets.AZURE_CLIENT_ID }}" -var "client_secret=${{ secrets.AZURE_CLIENT_SECRET }}" -var "tenant_id=${{ secrets.AZURE_TENANT_ID }}" -var "subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" -auto-approve -input=false
+    # - name: Terraform Destroy
+    #   run:  terraform destroy -var "client_id=${{ secrets.AZURE_CLIENT_ID }}" -var "client_secret=${{ secrets.AZURE_CLIENT_SECRET }}" -var "tenant_id=${{ secrets.AZURE_TENANT_ID }}" -var "subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" -auto-approve -input=false
    
     - uses: act10ns/slack@v2
       with:
         status: started deployment
         channel: 'gitaction-pipeline-status-alerting'
-        message: Started Kubernetes aks deployment
+        message: Kubernetes aks deployment completed
       if: always()
