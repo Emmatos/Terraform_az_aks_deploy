@@ -41,19 +41,19 @@ jobs:
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-  - name: Terraform Apply
-    
+  
     - name: Terraform Init
       run: terraform init
 
 
  
-    # - name: Terraform Plan 
-    #   run: terraform plan -var "client_id=${{ secrets.AZURE_CLIENT_ID }}" -var "client_secret=${{ secrets.AZURE_CLIENT_SECRET }}" -var "tenant_id=${{ secrets.AZURE_TENANT_ID }}" -var "subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+    - name: Terraform Plan 
+      run: terraform plan -var "client_id=${{ secrets.AZURE_CLIENT_ID }}" -var "client_secret=${{ secrets.AZURE_CLIENT_SECRET }}" -var "tenant_id=${{ secrets.AZURE_TENANT_ID }}" -var "subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"
 
 
 
-      run:  terraform apply -var "client_id=${{ secrets.AZURE_CLIENT_ID }}" -var "client_secret=${{ secrets.AZURE_CLIENT_SECRET }}" -var "tenant_id=${{ secrets.AZURE_TENANT_ID }}" -var "subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" -auto-approve -input=false
+    # - name: Terraform Apply
+    #   run:  terraform apply -var "client_id=${{ secrets.AZURE_CLIENT_ID }}" -var "client_secret=${{ secrets.AZURE_CLIENT_SECRET }}" -var "tenant_id=${{ secrets.AZURE_TENANT_ID }}" -var "subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" -auto-approve -input=false
 
 
     - name: Terraform Destroy
@@ -63,5 +63,5 @@ jobs:
       with:
         status: started deployment
         channel: 'gitaction-pipeline-status-alerting'
-        message: Kubernetes aks DEProvisioning completed
+        message: Kubernetes aks DeProvisioning completed
       if: always()
