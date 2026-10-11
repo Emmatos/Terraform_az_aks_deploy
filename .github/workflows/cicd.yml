@@ -63,5 +63,5 @@ jobs:
       with:
         status: started deployment
         channel: 'gitaction-pipeline-status-alerting'
-        message: Kubernetes aks Provisioning completd
+        message: Kubernetes aks Provisioning completed
       if: always()
