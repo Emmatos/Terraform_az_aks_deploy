@@ -2,8 +2,7 @@
 name: 'Terraform infrastructure Deployment to Azure Cloud'
 
 on:
-  push:
-    branches: ["main"]
+  workflow_dispatch:
 
 jobs:
   terraform:
@@ -11,22 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
 
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
     defaults:
       run:
         shell: bash
 
     steps:
-      - name: Slack - Deployment Started
-        uses: act10ns/slack@v2
-        with:
-          status: started
-          channel: 'gitaction-pipeline-status-alerting'
-          message: 'Started Kubernetes AKS deployment'
-        if: always()
-
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -46,44 +34,10 @@ jobs:
           TF_VAR_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
           TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      
-      - name: Terraform Plan
-        run: terraform plan -out=tfplan
-        env:
-          TF_VAR_client_id: ${{ secrets.AZURE_CLIENT_ID }}
-          TF_VAR_client_secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-          TF_VAR_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
-          TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-
-      # - name: Terraform Apply
-      #   run: terraform apply -input=false tfplan
-      #   env:
-      #     TF_VAR_client_id: ${{ secrets.AZURE_CLIENT_ID }}
-      #     TF_VAR_client_secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-      #     TF_VAR_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
-      #     TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-            - name: Terraform Destroy
+      - name: Terraform Destroy
         run: terraform destroy -auto-approve
         env:
           TF_VAR_client_id: ${{ secrets.AZURE_CLIENT_ID }}
           TF_VAR_client_secret: ${{ secrets.AZURE_CLIENT_SECRET }}
           TF_VAR_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
           TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-      - name: Slack - Deployment Succeeded
-        if: success()
-        uses: act10ns/slack@v2
-        with:
-          status: success
-          channel: 'gitaction-pipeline-status-alerting'
-          message: 'Terraform AKS deployment completed successfully'
-
-      - name: Slack - Deployment Failed
-        if: failure()
-        uses: act10ns/slack@v2
-        with:
-          status: failure
-          channel: 'gitaction-pipeline-status-alerting'
-          message: 'Terraform AKS deployment failed. Check GitHub Actions logs.'
